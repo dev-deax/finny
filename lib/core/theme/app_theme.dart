@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../constants/app_colors.dart';
-import '../constants/app_design.dart';
+import '../constants/app_design.dart'; 
 import 'theme_builders.dart';
-
-class AppTheme {
+ 
+class AppTheme { 
   static ThemeData get darkTheme {
     return _buildTheme(
       brightness: Brightness.dark,
