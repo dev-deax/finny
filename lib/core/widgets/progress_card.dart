@@ -25,12 +25,12 @@ class ProgressCard extends StatelessWidget {
           children: [
             Text(
               number.toString(),
-              style: context.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold, color: context.colorScheme.primary),
+              style: context.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold, color: context.colorScheme.onTertiaryContainer),
             ),
             const SizedBox(height: 4),
             Text(
               label,
-              style: context.textTheme.labelSmall?.copyWith(fontWeight: FontWeight.w500, color: context.colorScheme.onSurface),
+              style: context.textTheme.labelSmall?.copyWith(fontWeight: FontWeight.w500, color: context.colorScheme.onTertiaryContainer),
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
             ),

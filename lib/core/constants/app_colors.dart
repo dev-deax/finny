@@ -23,7 +23,7 @@ class AppColors {
   static const Color lightTertiary = Color(0xFF9CA3AF);
   static const Color lightOnTertiary = Color(0xFFFFFFFF);
   static const Color lightTertiaryContainer = Color(0xFFF9FAFB);
-  static const Color lightOnTertiaryContainer = Color(0xFF1F2937);
+  static const Color lightOnTertiaryContainer = Color(0xFF522B6F);
   static const Color lightTertiaryFixed = Color(0xFF9CA3AF);
   static const Color lightTertiaryFixedDim = Color(0xFF6B7280);
   static const Color lightOnTertiaryFixed = Color(0xFFFFFFFF);
