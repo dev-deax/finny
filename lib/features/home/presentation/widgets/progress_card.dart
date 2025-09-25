@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../extension/build_context_extension.dart';
+import '../../../../core/extension/build_context_extension.dart';
 
 class ProgressCard extends StatelessWidget {
   final int number;

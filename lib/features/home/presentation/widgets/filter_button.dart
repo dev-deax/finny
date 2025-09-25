@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../extension/build_context_extension.dart';
+import '../../../../core/extension/build_context_extension.dart';
 
 class FilterButton extends StatelessWidget {
   final String text;

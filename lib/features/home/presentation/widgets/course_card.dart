@@ -1,8 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:finny/core/extension/build_context_extension.dart';
+import 'package:finny/features/courses/domain/entities/course.dart';
 import 'package:flutter/material.dart';
-
-import '../../features/home/domain/entities/course.dart';
 
 class CourseCard extends StatelessWidget {
   final Course course;

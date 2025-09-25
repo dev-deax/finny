@@ -1,7 +1,7 @@
 import 'package:finny/core/extension/build_context_extension.dart';
+import 'package:finny/features/courses/domain/entities/progress.dart';
 import 'package:flutter/material.dart';
 
-import '../../features/home/domain/entities/progress.dart';
 import 'progress_card.dart';
 
 class ProgressSection extends StatelessWidget {
