@@ -1,39 +1,51 @@
+import 'package:finny/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class ThemeBuilders {
-  static AppBarTheme buildAppBarTheme({required Color backgroundColor, required Color onBackgroundColor}) {
-    return AppBarTheme(
-      backgroundColor: backgroundColor,
-      elevation: 0,
-      iconTheme: IconThemeData(color: onBackgroundColor),
-      titleTextStyle: TextStyle(color: onBackgroundColor, fontWeight: FontWeight.bold, fontSize: 20),
-    );
+  static AppBarTheme buildAppBarTheme() {
+    return const AppBarTheme(elevation: 0, centerTitle: true);
   }
 
-  static CardThemeData buildCardTheme({required Color color, required double elevation, required double shadowAlpha}) {
+  static CardThemeData buildCardTheme({required double elevation, required double shadowAlpha}) {
     return CardThemeData(
-      color: color,
       elevation: elevation,
-      shadowColor: color.withValues(alpha: shadowAlpha),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       margin: const EdgeInsets.all(8),
     );
   }
 
-  static ColorScheme buildColorScheme({required Brightness brightness, required Color surfaceColor, required Color onSurfaceColor, required Color secondaryColor, required Color tertiaryColor}) {
-    final bool isDark = brightness == Brightness.dark;
-    return ColorScheme(
+  static ColorScheme buildColorScheme({required Brightness brightness}) {
+    final isDark = brightness == Brightness.dark;
+    return ColorScheme.fromSeed(
       brightness: brightness,
-      primary: isDark ? surfaceColor : surfaceColor,
-      onPrimary: isDark ? onSurfaceColor : onSurfaceColor,
-      secondary: secondaryColor,
-      onSecondary: onSurfaceColor,
-      error: isDark ? const Color(0xFFEF4444) : const Color(0xFFEF4444),
-      onError: isDark ? const Color(0xFFFFFFFF) : const Color(0xFF000000),
-      surface: surfaceColor,
-      onSurface: onSurfaceColor,
-      tertiary: tertiaryColor,
-      onTertiary: onSurfaceColor,
+      seedColor: AppColors.primaryPurple,
+      surface: isDark ? AppColors.darkSurface : AppColors.lightSurface,
+      onSurface: isDark ? AppColors.darkOnSurface : AppColors.lightOnSurface,
+      onSurfaceVariant: isDark ? AppColors.darkOnSurfaceVariant : AppColors.lightOnSurfaceVariant,
+      secondary: isDark ? AppColors.darkSecondary : AppColors.lightSecondary,
+      tertiary: isDark ? AppColors.darkTertiary : AppColors.lightTertiary,
+      inverseSurface: isDark ? AppColors.darkInverseSurface : AppColors.lightInverseSurface,
+      onInverseSurface: isDark ? AppColors.darkOnInverseSurface : AppColors.lightOnInverseSurface,
+      inversePrimary: isDark ? AppColors.darkInversePrimary : AppColors.lightInversePrimary,
+      surfaceTint: isDark ? AppColors.darkSurfaceTint : AppColors.lightSurfaceTint,
+      error: isDark ? AppColors.darkError : AppColors.lightError,
+      onError: isDark ? AppColors.darkOnError : AppColors.lightOnError,
+      errorContainer: isDark ? AppColors.darkErrorContainer : AppColors.lightErrorContainer,
+      onErrorContainer: isDark ? AppColors.darkOnErrorContainer : AppColors.lightOnErrorContainer,
+      outline: isDark ? AppColors.darkOutline : AppColors.lightOutline,
+      outlineVariant: isDark ? AppColors.darkOutlineVariant : AppColors.lightOutlineVariant,
+      shadow: isDark ? AppColors.darkShadow : AppColors.lightShadow,
+      scrim: isDark ? AppColors.darkScrim : AppColors.lightScrim,
+      primary: isDark ? AppColors.darkPrimary : AppColors.lightPrimary,
+      onPrimary: isDark ? AppColors.darkOnPrimary : AppColors.lightOnPrimary,
+      primaryContainer: isDark ? AppColors.darkPrimaryContainer : AppColors.lightPrimaryContainer,
+      onPrimaryContainer: isDark ? AppColors.darkOnPrimaryContainer : AppColors.lightOnPrimaryContainer,
+      secondaryContainer: isDark ? AppColors.darkSecondaryContainer : AppColors.lightSecondaryContainer,
+      onSecondary: isDark ? AppColors.darkOnSecondary : AppColors.lightOnSecondary,
+      onSecondaryContainer: isDark ? AppColors.darkOnSecondaryContainer : AppColors.lightOnSecondaryContainer,
+      tertiaryContainer: isDark ? AppColors.darkTertiaryContainer : AppColors.lightTertiaryContainer,
+      onTertiary: isDark ? AppColors.darkOnTertiary : AppColors.lightOnTertiary,
+      onTertiaryContainer: isDark ? AppColors.darkOnTertiaryContainer : AppColors.lightOnTertiaryContainer,
     );
   }
 
@@ -51,25 +63,23 @@ class ThemeBuilders {
     return OutlinedButtonThemeData(
       style: ButtonStyle(
         shape: WidgetStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
-        side: WidgetStateProperty.all(const BorderSide(color: Color(0xFF8B5CF6), width: 2)),
         padding: WidgetStateProperty.all(const EdgeInsets.symmetric(horizontal: 24, vertical: 12)),
         textStyle: WidgetStateProperty.all(const TextStyle(fontWeight: FontWeight.w600, fontSize: 16)),
       ),
     );
   }
 
-  static TextTheme buildTextTheme({required Color onBackgroundColor, required Color secondaryColor, required Color tertiaryColor}) {
-    return TextTheme(
-      titleLarge: TextStyle(color: onBackgroundColor, fontWeight: FontWeight.bold, fontSize: 24),
-      titleMedium: TextStyle(color: onBackgroundColor, fontWeight: FontWeight.w600, fontSize: 20),
-      titleSmall: TextStyle(color: onBackgroundColor, fontWeight: FontWeight.w500, fontSize: 16),
-      bodyLarge: TextStyle(color: onBackgroundColor, fontSize: 16),
-      bodyMedium: TextStyle(color: secondaryColor, fontSize: 14),
-      bodySmall: TextStyle(color: tertiaryColor, fontSize: 12),
-      labelLarge: TextStyle(color: onBackgroundColor, fontWeight: FontWeight.w600, fontSize: 14),
-      labelMedium: TextStyle(color: secondaryColor, fontWeight: FontWeight.w500, fontSize: 12),
-      labelSmall: TextStyle(color: tertiaryColor, fontWeight: FontWeight.w400, fontSize: 10),
+  static TextTheme buildTextTheme() {
+    return const TextTheme(
+      titleLarge: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+      titleMedium: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+      titleSmall: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+      bodyLarge: TextStyle(fontSize: 16),
+      bodyMedium: TextStyle(fontSize: 14),
+      bodySmall: TextStyle(fontSize: 12),
+      labelLarge: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+      labelMedium: TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
+      labelSmall: TextStyle(fontWeight: FontWeight.w400, fontSize: 10),
     );
   }
-  
 }
