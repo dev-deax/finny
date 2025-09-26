@@ -2,11 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:finny/core/extension/build_context_extension.dart';
 import 'package:finny/core/widgets/badge_widget.dart';
 import 'package:finny/core/widgets/image_widgets/image_widgets.dart';
-import 'package:finny/features/courses/domain/entities/course.dart';
+import 'package:finny/features/courses/domain/entities/module.dart';
 import 'package:flutter/material.dart';
 
 class CourseCard extends StatelessWidget {
-  final Course course;
+  final Module course;
 
   const CourseCard({super.key, required this.course});
 
@@ -35,7 +35,7 @@ class CourseCard extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: CachedNetworkImage(
-                  imageUrl: course.socialImageUrl.isNotEmpty ? course.socialImageUrl : course.iconUrl,
+                  imageUrl: (course.socialImageUrl?.isNotEmpty == true) ? course.socialImageUrl! : (course.iconUrl ?? ''),
                   width: 80,
                   height: 80,
                   fit: BoxFit.cover,
@@ -69,7 +69,7 @@ class CourseCard extends StatelessWidget {
                             textColor: Colors.orange,
                           ),
                         ],
-                        if (course.rating.average > 4.5) ...[
+                        if (course.rating?.average != null && course.rating!.average > 4.5) ...[
                           const SizedBox(width: 8),
                           BadgeWidget(
                             text: 'DESTACADO',
@@ -130,7 +130,7 @@ class CourseCard extends StatelessWidget {
               Icon(Icons.star, size: 16, color: context.colorScheme.secondary),
               const SizedBox(width: 4),
               Text(
-                '${course.rating.average.toStringAsFixed(1)} (${course.rating.count})',
+                course.rating != null ? '${course.rating!.average.toStringAsFixed(1)} (${course.rating!.count})' : 'Sin calificación',
                 style: context.textTheme.bodySmall?.copyWith(
                   fontWeight: FontWeight.w500,
                   color: context.colorScheme.secondary,

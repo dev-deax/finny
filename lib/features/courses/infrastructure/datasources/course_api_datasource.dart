@@ -1,15 +1,15 @@
 import 'package:dio/dio.dart';
 
 import '../../../../config/constants/environment.dart';
-import '../../domain/entities/course.dart';
+import '../../domain/entities/module.dart';
 import '../mappers/course_mapper.dart';
 import '../models/api/api_response_model.dart';
-import '../models/api/course_api_model.dart';
+import '../models/api/module_model.dart';
 
 abstract class CourseApiDataSource {
-  Future<Course?> getCourseById(String id);
+  Future<Module?> getCourseById(String id);
 
-  Future<List<Course>> getCourses({
+  Future<List<Module>> getCourses({
     int page = 1,
     int pageSize = 20,
     String? search,
@@ -25,7 +25,7 @@ class CourseApiDataSourceImpl implements CourseApiDataSource {
   CourseApiDataSourceImpl({required Dio dio}) : _dio = dio;
 
   @override
-  Future<Course?> getCourseById(String id) async {
+  Future<Module?> getCourseById(String id) async {
     try {
       final response = await _dio.get(
         '${Environment.microsoftLearnApiBaseUrl}/$id',
@@ -34,8 +34,8 @@ class CourseApiDataSourceImpl implements CourseApiDataSource {
       if (response.statusCode == 200) {
         final courseData = response.data;
         if (courseData != null) {
-          final courseApiModel = CourseApiModel.fromJson(courseData);
-          return CourseMapper.toDomain(courseApiModel);
+          final moduleApiModel = ModuleModel.fromJson(courseData);
+          return CourseMapper.toDomain(moduleApiModel);
         }
       }
       return null;
@@ -53,7 +53,7 @@ class CourseApiDataSourceImpl implements CourseApiDataSource {
   }
 
   @override
-  Future<List<Course>> getCourses({
+  Future<List<Module>> getCourses({
     int page = 1,
     int pageSize = 20,
     String? search,
@@ -90,7 +90,7 @@ class CourseApiDataSourceImpl implements CourseApiDataSource {
 
       if (response.statusCode == 200) {
         final apiResponse = ApiResponseModel.fromJson(response.data);
-        return CourseMapper.toDomainList(apiResponse.courses);
+        return CourseMapper.toDomainList(apiResponse.modules);
       } else {
         throw Exception('Error al obtener cursos: ${response.statusCode}');
       }

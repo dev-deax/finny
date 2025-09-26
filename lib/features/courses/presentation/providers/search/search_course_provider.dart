@@ -1,13 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../domain/entities/course.dart';
+import '../../../domain/entities/module.dart';
 import '../course/course_providers.dart';
 
-final filteredCoursesProvider = Provider<List<Course>>((ref) {
+final filteredCoursesProvider = Provider<List<Module>>((ref) {
   final searchState = ref.watch(searchProvider);
   final courseListState = ref.watch(courseListProvider);
 
-  List<Course> courses = courseListState.courses;
+  List<Module> courses = courseListState.courses;
 
   if (searchState.query.isNotEmpty) {
     courses = courses.where((course) {
@@ -55,7 +55,7 @@ class SearchNotifier extends StateNotifier<SearchState> {
     state = state.copyWith(isSearching: isSearching);
   }
 
-  void updateFilteredCourses(List<Course> courses) {
+  void updateFilteredCourses(List<Module> courses) {
     state = state.copyWith(filteredCourses: courses);
   }
 
@@ -81,7 +81,7 @@ class SearchState {
   final String? type;
   final String? level;
   final List<String>? products;
-  final List<Course> filteredCourses;
+  final List<Module> filteredCourses;
   final bool isSearching;
 
   const SearchState({
@@ -98,7 +98,7 @@ class SearchState {
     String? type,
     String? level,
     List<String>? products,
-    List<Course>? filteredCourses,
+    List<Module>? filteredCourses,
     bool? isSearching,
   }) {
     return SearchState(

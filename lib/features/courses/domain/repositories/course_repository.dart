@@ -1,11 +1,11 @@
-import '../entities/course.dart';
+import '../entities/module.dart';
 
 abstract class CourseRepository {
   Future<void> clearLocalCourses();
 
-  Future<Course?> getCourseById(String id);
+  Future<Module?> getCourseById(String id);
 
-  Future<List<Course>> getCourses({
+  Future<List<Module>> getCourses({
     int page = 1,
     int pageSize = 20,
     String? search,
@@ -14,7 +14,7 @@ abstract class CourseRepository {
     List<String>? products,
   });
 
-  Future<List<Course>> getLocalCourses();
+  Future<List<Module>> getLocalCourses();
 
-  Future<void> saveCoursesLocally(List<Course> courses);
+  Future<void> saveCoursesLocally(List<Module> courses);
 }

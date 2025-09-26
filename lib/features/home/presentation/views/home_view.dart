@@ -1,4 +1,4 @@
-import 'package:finny/features/courses/domain/entities/course.dart';
+import 'package:finny/features/courses/domain/entities/module.dart';
 import 'package:finny/features/courses/domain/entities/progress.dart';
 import 'package:finny/features/courses/domain/entities/user.dart';
 import 'package:finny/features/home/presentation/widgets/app_header.dart';
@@ -20,17 +20,18 @@ class _HomeViewState extends State<HomeView> {
 
   final Progress progress = const Progress(totalCourses: 20, inProgressCourses: 2, completedCourses: 9, notStartedCourses: 4);
 
-  final List<Course> courses = [
-    const Course(
+  final List<Module> courses = [
+    const Module(
       summary: 'Mejorar tu situación y tu calidad de vida.',
       levels: ['beginner'],
       roles: ['student'],
       products: ['finny'],
+      subjects: ['finanzas'],
       uid: '1',
       type: 'module',
       title: 'Planificación de Finanzas Personales',
       durationInMinutes: 120,
-      rating: CourseRating(count: 10, average: 4.5),
+      rating: ModuleRating(count: 10, average: 4.5),
       popularity: 0.8,
       iconUrl: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=200&h=200&fit=crop',
       socialImageUrl: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&h=200&fit=crop',
@@ -41,16 +42,17 @@ class _HomeViewState extends State<HomeView> {
       units: ['unit1', 'unit2'],
       numberOfChildren: 2,
     ),
-    const Course(
+    const Module(
       summary: 'Un curso donde aprenderás desde cero a invertir en instrumentos...',
       levels: ['intermediate'],
       roles: ['student'],
       products: ['finny'],
+      subjects: ['inversiones'],
       uid: '2',
       type: 'module',
       title: 'Inversión en Renta Fija',
       durationInMinutes: 180,
-      rating: CourseRating(count: 15, average: 4.2),
+      rating: ModuleRating(count: 15, average: 4.2),
       popularity: 0.7,
       iconUrl: 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=200&h=200&fit=crop',
       socialImageUrl: 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=400&h=200&fit=crop',
