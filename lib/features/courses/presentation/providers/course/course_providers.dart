@@ -1,0 +1,149 @@
+import 'dart:developer';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../../../domain/entities/course.dart';
+import '../../../domain/repositories/course_repository.dart';
+import 'course_repository_provider.dart';
+
+// Provider para obtener un curso específico por ID
+final courseByIdProvider = FutureProvider.family<Course?, String>((ref, courseId) async {
+  final courseRepository = ref.watch(courseRepositoryProvider);
+  return await courseRepository.getCourseById(courseId);
+});
+
+// Provider para el estado de la lista de cursos
+final courseListProvider = StateNotifierProvider<CourseListNotifier, CourseListState>((ref) {
+  final courseRepository = ref.watch(courseRepositoryProvider);
+  return CourseListNotifier(courseRepository: courseRepository);
+});
+
+// Provider para obtener cursos locales
+final localCoursesProvider = FutureProvider<List<Course>>((ref) async {
+  final courseRepository = ref.watch(courseRepositoryProvider);
+  return await courseRepository.getLocalCourses();
+});
+
+// Notifier para la gestión del estado de cursos
+class CourseListNotifier extends StateNotifier<CourseListState> {
+  final CourseRepository _courseRepository;
+
+  CourseListNotifier({required CourseRepository courseRepository})
+      : _courseRepository = courseRepository,
+        super(const CourseListState());
+
+  void clearError() {
+    state = state.copyWith(error: null);
+  }
+
+  Future<void> loadCourses({
+    int page = 1,
+    int pageSize = 20,
+    String? search,
+    String? type,
+    String? level,
+    List<String>? products,
+    bool refresh = false,
+  }) async {
+    if (refresh) {
+      state = state.copyWith(
+        courses: [],
+        currentPage: 1,
+        error: null,
+      );
+    }
+
+    if (state.isLoading) return;
+
+    state = state.copyWith(isLoading: true, error: null);
+
+    try {
+      final courses = await _courseRepository.getCourses(
+        page: page,
+        pageSize: pageSize,
+        search: search,
+        type: type,
+        level: level,
+        products: products,
+      );
+
+      state = state.copyWith(
+        courses: refresh ? courses : [...state.courses, ...courses],
+        isLoading: false,
+        currentPage: page,
+        hasMore: courses.length == pageSize,
+        error: null,
+      );
+    } catch (e) {
+      log('Error al cargar cursos: $e');
+      state = state.copyWith(
+        isLoading: false,
+        error: e.toString(),
+      );
+    }
+  }
+
+  Future<void> loadMoreCourses({
+    String? search,
+    String? type,
+    String? level,
+    List<String>? products,
+  }) async {
+    if (!state.hasMore || state.isLoading) return;
+
+    await loadCourses(
+      page: state.currentPage + 1,
+      search: search,
+      type: type,
+      level: level,
+      products: products,
+    );
+  }
+
+  Future<void> refreshCourses({
+    String? search,
+    String? type,
+    String? level,
+    List<String>? products,
+  }) async =>
+      await loadCourses(
+        page: 1,
+        search: search,
+        type: type,
+        level: level,
+        products: products,
+        refresh: true,
+      );
+}
+
+class CourseListState {
+  final List<Course> courses;
+  final bool isLoading;
+  final String? error;
+  final bool hasMore;
+  final int currentPage;
+
+  const CourseListState({
+    this.courses = const [],
+    this.isLoading = false,
+    this.error,
+    this.hasMore = true,
+    this.currentPage = 1,
+  });
+
+  CourseListState copyWith({
+    List<Course>? courses,
+    bool? isLoading,
+    String? error,
+    bool? hasMore,
+    int? currentPage,
+  }) {
+    return CourseListState(
+      courses: courses ?? this.courses,
+      isLoading: isLoading ?? this.isLoading,
+      error: error,
+      hasMore: hasMore ?? this.hasMore,
+      currentPage: currentPage ?? this.currentPage,
+    );
+  }
+}

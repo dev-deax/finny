@@ -22,8 +22,8 @@ class CustomBottomNavigation extends StatelessWidget {
             children: [
               _buildNavItem(context: context, icon: Icons.home, label: 'Inicio', index: 0),
               _buildNavItem(context: context, icon: Icons.pie_chart, label: 'Presupuesto', index: 1),
-              _buildNavItem(context: context, icon: Icons.school, label: 'Academy', index: 2),
-              _buildNavItem(context: context, icon: Icons.account_balance_wallet, label: 'Productos', index: 3),
+              _buildNavItem(context: context, icon: Icons.school, label: 'Cursos', index: 2),
+              _buildNavItem(context: context, icon: Icons.favorite, label: 'Favoritos', index: 3),
             ],
           ),
         ),
