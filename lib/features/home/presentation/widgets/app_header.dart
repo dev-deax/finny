@@ -1,5 +1,6 @@
 import 'package:finny/core/extension/build_context_extension.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'theme_switcher.dart';
 
@@ -18,7 +19,7 @@ class AppHeader extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('finny', style: context.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
+              SvgPicture.asset('assets/images/logo.svg', height: 24),
               Row(
                 children: [
                   Icon(Icons.visibility_outlined, color: context.colorScheme.onSurface.withValues(alpha: 0.7), size: 24),
