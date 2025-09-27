@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 
 import '../../../../config/constants/environment.dart';
 import '../../domain/entities/module.dart';
-import '../mappers/course_mapper.dart';
+import '../mappers/module_mapper.dart';
 import '../models/api/api_response_model.dart';
 import '../models/api/module_model.dart';
 
@@ -35,7 +35,7 @@ class CourseApiDataSourceImpl implements CourseApiDataSource {
         final courseData = response.data;
         if (courseData != null) {
           final moduleApiModel = ModuleModel.fromJson(courseData);
-          return CourseMapper.toDomain(moduleApiModel);
+          return ModuleMapper.toDomain(moduleApiModel);
         }
       }
       return null;
@@ -90,7 +90,7 @@ class CourseApiDataSourceImpl implements CourseApiDataSource {
 
       if (response.statusCode == 200) {
         final apiResponse = ApiResponseModel.fromJson(response.data);
-        return CourseMapper.toDomainList(apiResponse.modules);
+        return ModuleMapper.toDomainList(apiResponse.modules);
       } else {
         throw Exception('Error al obtener cursos: ${response.statusCode}');
       }

@@ -1,5 +1,5 @@
-import '../../domain/entities/module.dart';
-import '../models/api/module_model.dart';
+import 'package:finny/features/courses/domain/entities/module.dart';
+import 'package:finny/features/courses/infrastructure/models/api/module_model.dart';
 
 class ModuleMapper {
   static Module toDomain(ModuleModel apiModel) {
