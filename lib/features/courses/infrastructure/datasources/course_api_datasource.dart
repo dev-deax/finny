@@ -1,21 +1,23 @@
 import 'package:dio/dio.dart';
 
 import '../../../../config/constants/environment.dart';
-import '../../domain/entities/module.dart';
-import '../mappers/module_mapper.dart';
+import '../../domain/entities/course.dart';
+import '../mappers/course_mapper.dart';
 import '../models/api/api_response_model.dart';
-import '../models/api/module_model.dart';
+import '../models/api/course_model.dart';
 
 abstract class CourseApiDataSource {
-  Future<Module?> getCourseById(String id);
+  Future<Course?> getCourseById(String id);
 
-  Future<List<Module>> getCourses({
+  Future<List<Course>> getCourses({
     int page = 1,
     int pageSize = 20,
     String? search,
     String? type,
     String? level,
     List<String>? products,
+    List<String>? roles,
+    List<String>? subjects,
   });
 }
 
@@ -25,7 +27,7 @@ class CourseApiDataSourceImpl implements CourseApiDataSource {
   CourseApiDataSourceImpl({required Dio dio}) : _dio = dio;
 
   @override
-  Future<Module?> getCourseById(String id) async {
+  Future<Course?> getCourseById(String id) async {
     try {
       final response = await _dio.get(
         '${Environment.microsoftLearnApiBaseUrl}/$id',
@@ -34,8 +36,8 @@ class CourseApiDataSourceImpl implements CourseApiDataSource {
       if (response.statusCode == 200) {
         final courseData = response.data;
         if (courseData != null) {
-          final moduleApiModel = ModuleModel.fromJson(courseData);
-          return ModuleMapper.toDomain(moduleApiModel);
+          final courseApiModel = CourseModel.fromJson(courseData);
+          return CourseMapper.toDomain(courseApiModel);
         }
       }
       return null;
@@ -53,26 +55,27 @@ class CourseApiDataSourceImpl implements CourseApiDataSource {
   }
 
   @override
-  Future<List<Module>> getCourses({
+  Future<List<Course>> getCourses({
     int page = 1,
     int pageSize = 20,
     String? search,
     String? type,
     String? level,
     List<String>? products,
+    List<String>? roles,
+    List<String>? subjects,
   }) async {
     try {
       final queryParams = <String, dynamic>{
-        'page': page,
-        'page_size': pageSize,
+        'locale': 'es-es', // Configurar para español
       };
 
-      if (search != null && search.isNotEmpty) {
-        queryParams['search'] = search;
-      }
+      // Solo obtener cursos
+      queryParams['type'] = 'courses';
 
-      if (type != null && type.isNotEmpty) {
-        queryParams['type'] = type;
+      if (search != null && search.isNotEmpty) {
+        // La API de Microsoft Learn no tiene parámetro de búsqueda directo
+        // Tendremos que filtrar localmente después de obtener los datos
       }
 
       if (level != null && level.isNotEmpty) {
@@ -80,7 +83,15 @@ class CourseApiDataSourceImpl implements CourseApiDataSource {
       }
 
       if (products != null && products.isNotEmpty) {
-        queryParams['products'] = products.join(',');
+        queryParams['product'] = products.join(',');
+      }
+
+      if (roles != null && roles.isNotEmpty) {
+        queryParams['role'] = roles.join(',');
+      }
+
+      if (subjects != null && subjects.isNotEmpty) {
+        queryParams['subject'] = subjects.join(',');
       }
 
       final response = await _dio.get(
@@ -90,7 +101,29 @@ class CourseApiDataSourceImpl implements CourseApiDataSource {
 
       if (response.statusCode == 200) {
         final apiResponse = ApiResponseModel.fromJson(response.data);
-        return ModuleMapper.toDomainList(apiResponse.modules);
+
+        // Convertir solo los cursos
+        List<Course> courses = apiResponse.courses.map((courseModel) => CourseMapper.toDomain(courseModel)).toList();
+
+        // Aplicar filtro de búsqueda localmente si es necesario
+        if (search != null && search.isNotEmpty) {
+          courses = courses.where((course) {
+            return course.title.toLowerCase().contains(search.toLowerCase()) || course.summary.toLowerCase().contains(search.toLowerCase());
+          }).toList();
+        }
+
+        // Aplicar paginación
+        final startIndex = (page - 1) * pageSize;
+        final endIndex = startIndex + pageSize;
+
+        if (startIndex >= courses.length) {
+          return [];
+        }
+
+        return courses.sublist(
+          startIndex,
+          endIndex > courses.length ? courses.length : endIndex,
+        );
       } else {
         throw Exception('Error al obtener cursos: ${response.statusCode}');
       }

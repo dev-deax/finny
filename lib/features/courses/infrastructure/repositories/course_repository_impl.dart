@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import '../../domain/entities/module.dart';
+import '../../domain/entities/course.dart';
 import '../../domain/repositories/course_repository.dart';
 import '../datasources/course_api_datasource.dart';
 import '../datasources/isar_datasource.dart';
@@ -25,7 +25,7 @@ class CourseRepositoryImpl implements CourseRepository {
   }
 
   @override
-  Future<Module?> getCourseById(String id) async {
+  Future<Course?> getCourseById(String id) async {
     try {
       final course = await _apiDataSource.getCourseById(id);
       if (course != null) {
@@ -44,13 +44,15 @@ class CourseRepositoryImpl implements CourseRepository {
   }
 
   @override
-  Future<List<Module>> getCourses({
+  Future<List<Course>> getCourses({
     int page = 1,
     int pageSize = 20,
     String? search,
     String? type,
     String? level,
     List<String>? products,
+    List<String>? roles,
+    List<String>? subjects,
   }) async {
     try {
       final courses = await _apiDataSource.getCourses(
@@ -60,6 +62,8 @@ class CourseRepositoryImpl implements CourseRepository {
         type: type,
         level: level,
         products: products,
+        roles: roles,
+        subjects: subjects,
       );
 
       if (courses.isNotEmpty) {
@@ -82,7 +86,7 @@ class CourseRepositoryImpl implements CourseRepository {
   }
 
   @override
-  Future<List<Module>> getLocalCourses() async {
+  Future<List<Course>> getLocalCourses() async {
     try {
       return await _localDataSource.getCourses();
     } catch (e) {
@@ -91,7 +95,7 @@ class CourseRepositoryImpl implements CourseRepository {
   }
 
   @override
-  Future<void> saveCoursesLocally(List<Module> courses) async {
+  Future<void> saveCoursesLocally(List<Course> courses) async {
     try {
       await _localDataSource.saveCourses(courses);
     } catch (e) {

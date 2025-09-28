@@ -2,12 +2,12 @@ import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../domain/entities/module.dart';
+import '../../../domain/entities/course.dart';
 import '../../../domain/repositories/course_repository.dart';
 import 'course_repository_provider.dart';
 
 // Provider para obtener un curso específico por ID
-final courseByIdProvider = FutureProvider.family<Module?, String>((ref, courseId) async {
+final courseByIdProvider = FutureProvider.family<Course?, String>((ref, courseId) async {
   final courseRepository = ref.watch(courseRepositoryProvider);
   return await courseRepository.getCourseById(courseId);
 });
@@ -19,7 +19,7 @@ final courseListProvider = StateNotifierProvider<CourseListNotifier, CourseListS
 });
 
 // Provider para obtener cursos locales
-final localCoursesProvider = FutureProvider<List<Module>>((ref) async {
+final localCoursesProvider = FutureProvider<List<Course>>((ref) async {
   final courseRepository = ref.watch(courseRepositoryProvider);
   return await courseRepository.getLocalCourses();
 });
@@ -43,6 +43,8 @@ class CourseListNotifier extends StateNotifier<CourseListState> {
     String? type,
     String? level,
     List<String>? products,
+    List<String>? roles,
+    List<String>? subjects,
     bool refresh = false,
   }) async {
     if (refresh) {
@@ -65,6 +67,8 @@ class CourseListNotifier extends StateNotifier<CourseListState> {
         type: type,
         level: level,
         products: products,
+        roles: roles,
+        subjects: subjects,
       );
 
       state = state.copyWith(
@@ -88,6 +92,8 @@ class CourseListNotifier extends StateNotifier<CourseListState> {
     String? type,
     String? level,
     List<String>? products,
+    List<String>? roles,
+    List<String>? subjects,
   }) async {
     if (!state.hasMore || state.isLoading) return;
 
@@ -97,6 +103,8 @@ class CourseListNotifier extends StateNotifier<CourseListState> {
       type: type,
       level: level,
       products: products,
+      roles: roles,
+      subjects: subjects,
     );
   }
 
@@ -105,6 +113,8 @@ class CourseListNotifier extends StateNotifier<CourseListState> {
     String? type,
     String? level,
     List<String>? products,
+    List<String>? roles,
+    List<String>? subjects,
   }) async =>
       await loadCourses(
         page: 1,
@@ -112,12 +122,14 @@ class CourseListNotifier extends StateNotifier<CourseListState> {
         type: type,
         level: level,
         products: products,
+        roles: roles,
+        subjects: subjects,
         refresh: true,
       );
 }
 
 class CourseListState {
-  final List<Module> courses;
+  final List<Course> courses;
   final bool isLoading;
   final String? error;
   final bool hasMore;
@@ -132,7 +144,7 @@ class CourseListState {
   });
 
   CourseListState copyWith({
-    List<Module>? courses,
+    List<Course>? courses,
     bool? isLoading,
     String? error,
     bool? hasMore,

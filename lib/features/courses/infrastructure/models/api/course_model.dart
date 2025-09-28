@@ -1,7 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-import 'study_guide_model.dart';
-
 class CourseModel extends Equatable {
   final String uid;
   final String courseNumber;
@@ -17,7 +15,6 @@ class CourseModel extends Equatable {
   final List<String> levels;
   final List<String> roles;
   final List<String> products;
-  final List<StudyGuideModel> studyGuide;
 
   const CourseModel({
     required this.uid,
@@ -34,12 +31,9 @@ class CourseModel extends Equatable {
     required this.levels,
     required this.roles,
     required this.products,
-    required this.studyGuide,
   });
 
   factory CourseModel.fromJson(Map<String, dynamic> json) {
-    final studyGuideList = json['study_guide'] as List<dynamic>? ?? [];
-
     return CourseModel(
       uid: json['uid'] as String? ?? '',
       courseNumber: json['course_number'] as String? ?? '',
@@ -55,7 +49,6 @@ class CourseModel extends Equatable {
       levels: (json['levels'] as List<dynamic>?)?.cast<String>() ?? [],
       roles: (json['roles'] as List<dynamic>?)?.cast<String>() ?? [],
       products: (json['products'] as List<dynamic>?)?.cast<String>() ?? [],
-      studyGuide: studyGuideList.map((guideJson) => StudyGuideModel.fromJson(guideJson as Map<String, dynamic>)).toList(),
     );
   }
 
@@ -75,7 +68,6 @@ class CourseModel extends Equatable {
         levels,
         roles,
         products,
-        studyGuide,
       ];
 
   Map<String, dynamic> toJson() {
@@ -94,7 +86,6 @@ class CourseModel extends Equatable {
       'levels': levels,
       'roles': roles,
       'products': products,
-      'study_guide': studyGuide.map((guide) => guide.toJson()).toList(),
     };
   }
 }

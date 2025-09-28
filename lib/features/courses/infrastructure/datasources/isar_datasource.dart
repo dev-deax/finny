@@ -2,14 +2,14 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../domain/entities/module.dart';
+import '../../domain/entities/course.dart';
 
 abstract class LocalStorageDataSource {
   Future<void> clearCourses();
   Future<void> deleteCourse(String id);
-  Future<Module?> getCourseById(String id);
-  Future<List<Module>> getCourses();
-  Future<void> saveCourses(List<Module> courses);
+  Future<Course?> getCourseById(String id);
+  Future<List<Course>> getCourses();
+  Future<void> saveCourses(List<Course> courses);
 }
 
 class LocalStorageDataSourceImpl implements LocalStorageDataSource {
@@ -37,7 +37,7 @@ class LocalStorageDataSourceImpl implements LocalStorageDataSource {
   }
 
   @override
-  Future<Module?> getCourseById(String id) async {
+  Future<Course?> getCourseById(String id) async {
     try {
       final courses = await getCourses();
       return courses.where((course) => course.uid == id).firstOrNull;
@@ -47,7 +47,7 @@ class LocalStorageDataSourceImpl implements LocalStorageDataSource {
   }
 
   @override
-  Future<List<Module>> getCourses() async {
+  Future<List<Course>> getCourses() async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final coursesString = prefs.getString(_coursesKey);
@@ -62,7 +62,7 @@ class LocalStorageDataSourceImpl implements LocalStorageDataSource {
   }
 
   @override
-  Future<void> saveCourses(List<Module> courses) async {
+  Future<void> saveCourses(List<Course> courses) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final coursesJson = courses.map((course) => _courseToJson(course)).toList();
@@ -72,61 +72,35 @@ class LocalStorageDataSourceImpl implements LocalStorageDataSource {
     }
   }
 
-  Module _courseFromJson(Map<String, dynamic> json) {
-    return Module(
+  Course _courseFromJson(Map<String, dynamic> json) {
+    return Course(
       summary: json['summary'] as String? ?? '',
       levels: json['levels'] != null ? List<String>.from(json['levels']) : [],
       roles: json['roles'] != null ? List<String>.from(json['roles']) : [],
       products: json['products'] != null ? List<String>.from(json['products']) : [],
-      subjects: json['subjects'] != null ? List<String>.from(json['subjects']) : [],
       uid: json['uid'] as String? ?? '',
       type: json['type'] as String? ?? '',
       title: json['title'] as String? ?? '',
       durationInMinutes: json['durationInMinutes'] as int? ?? 0,
-      rating: json['rating'] != null
-          ? ModuleRating(
-              count: json['rating']['count'] as int? ?? 0,
-              average: (json['rating']['average'] as num?)?.toDouble() ?? 0.0,
-            )
-          : null,
-      popularity: (json['popularity'] as num?)?.toDouble() ?? 0.0,
-      iconUrl: json['iconUrl'] as String?,
-      socialImageUrl: json['socialImageUrl'] as String?,
+      iconUrl: json['iconUrl'] as String? ?? '',
       locale: json['locale'] as String? ?? '',
-      lastModified: json['lastModified'] as String? ?? '',
       url: json['url'] as String? ?? '',
-      firstUnitUrl: json['firstUnitUrl'] as String?,
-      units: json['units'] != null ? List<String>.from(json['units']) : [],
-      numberOfChildren: json['numberOfChildren'] as int? ?? 0,
     );
   }
 
-  Map<String, dynamic> _courseToJson(Module course) {
+  Map<String, dynamic> _courseToJson(Course course) {
     return {
       'summary': course.summary,
       'levels': course.levels,
       'roles': course.roles,
       'products': course.products,
-      'subjects': course.subjects,
       'uid': course.uid,
       'type': course.type,
       'title': course.title,
       'durationInMinutes': course.durationInMinutes,
-      'rating': course.rating != null
-          ? {
-              'count': course.rating!.count,
-              'average': course.rating!.average,
-            }
-          : null,
-      'popularity': course.popularity,
       'iconUrl': course.iconUrl,
-      'socialImageUrl': course.socialImageUrl,
       'locale': course.locale,
-      'lastModified': course.lastModified,
       'url': course.url,
-      'firstUnitUrl': course.firstUnitUrl,
-      'units': course.units,
-      'numberOfChildren': course.numberOfChildren,
     };
   }
 }

@@ -1,4 +1,4 @@
-import 'package:finny/features/home/presentation/views/course_catalog_view.dart';
+import 'package:finny/features/courses/presentation/views/filtered_course_catalog_view.dart';
 import 'package:finny/features/home/presentation/views/home_view.dart';
 import 'package:flutter/material.dart';
 
@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
               body = const HomeView();
               break;
             case 2:
-              body = const CourseCatalogView();
+              body = const FilteredCourseCatalogView();
               break;
             case 3:
               body = const HomeView();

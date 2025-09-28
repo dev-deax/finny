@@ -1,12 +1,12 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:finny/core/extension/build_context_extension.dart';
 import 'package:finny/core/widgets/badge_widget.dart';
 import 'package:finny/core/widgets/image_widgets/image_widgets.dart';
-import 'package:finny/features/courses/domain/entities/module.dart';
+import 'package:finny/features/courses/domain/entities/course.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class CourseCard extends StatelessWidget {
-  final Module course;
+  final Course course;
 
   const CourseCard({super.key, required this.course});
 
@@ -33,17 +33,12 @@ class CourseCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: CachedNetworkImage(
-                  imageUrl: (course.socialImageUrl?.isNotEmpty == true) ? course.socialImageUrl! : (course.iconUrl ?? ''),
+                child: SvgPicture.network(
+                  'https://learn.microsoft.com/en-us/media/learn/certification/course.svg',
                   width: 80,
                   height: 80,
                   fit: BoxFit.cover,
-                  placeholder: (context, url) => ImagePlaceholderWidget(
-                    width: 80,
-                    height: 80,
-                  ),
-                  errorWidget: (context, url, error) => ImageErrorWidget(
+                  placeholderBuilder: (context) => ImagePlaceholderWidget(
                     width: 80,
                     height: 80,
                   ),
@@ -60,24 +55,6 @@ class CourseCard extends StatelessWidget {
                           text: course.type.toUpperCase(),
                           icon: const Icon(Icons.book, size: 12),
                         ),
-                        if (course.popularity > 0.7) ...[
-                          const SizedBox(width: 8),
-                          BadgeWidget(
-                            text: 'POPULAR',
-                            icon: const Icon(Icons.trending_up, size: 12),
-                            backgroundColor: Colors.orange.withValues(alpha: 0.1),
-                            textColor: Colors.orange,
-                          ),
-                        ],
-                        if (course.rating?.average != null && course.rating!.average > 4.5) ...[
-                          const SizedBox(width: 8),
-                          BadgeWidget(
-                            text: 'DESTACADO',
-                            icon: const Icon(Icons.star, size: 12),
-                            backgroundColor: Colors.amber.withValues(alpha: 0.1),
-                            textColor: Colors.amber,
-                          ),
-                        ],
                       ],
                     ),
                     const SizedBox(height: 8),
@@ -127,15 +104,6 @@ class CourseCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 16),
               ],
-              Icon(Icons.star, size: 16, color: context.colorScheme.secondary),
-              const SizedBox(width: 4),
-              Text(
-                course.rating != null ? '${course.rating!.average.toStringAsFixed(1)} (${course.rating!.count})' : 'Sin calificación',
-                style: context.textTheme.bodySmall?.copyWith(
-                  fontWeight: FontWeight.w500,
-                  color: context.colorScheme.secondary,
-                ),
-              ),
             ],
           ),
           if (course.products.isNotEmpty) ...[

@@ -1,20 +1,22 @@
-import '../entities/module.dart';
+import '../entities/course.dart';
 
 abstract class CourseRepository {
   Future<void> clearLocalCourses();
 
-  Future<Module?> getCourseById(String id);
+  Future<Course?> getCourseById(String id);
 
-  Future<List<Module>> getCourses({
+  Future<List<Course>> getCourses({
     int page = 1,
     int pageSize = 20,
     String? search,
     String? type,
     String? level,
     List<String>? products,
+    List<String>? roles,
+    List<String>? subjects,
   });
 
-  Future<List<Module>> getLocalCourses();
+  Future<List<Course>> getLocalCourses();
 
-  Future<void> saveCoursesLocally(List<Module> courses);
+  Future<void> saveCoursesLocally(List<Course> courses);
 }
