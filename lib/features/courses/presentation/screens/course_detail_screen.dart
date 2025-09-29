@@ -41,7 +41,7 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
               ),
             ],
           ),
-          body: _buildContent(isConnected),
+          body: _buildContent(),
         );
       },
       loading: () => Scaffold(
@@ -52,28 +52,18 @@ class _CourseDetailScreenState extends ConsumerState<CourseDetailScreen> {
       error: (_, __) => Scaffold(
         backgroundColor: context.colorScheme.surface,
         appBar: const AppBarWidget(title: 'Detalle del curso'),
-        body: Column(
-          children: [
-            OfflineBanner(),
-            const Expanded(
-              child: Center(
-                child: Text('Error al cargar la información del curso'),
-              ),
-            ),
-          ],
-        ),
+        body: const StateDisplayWidget(type: StateType.error, message: 'Error al cargar la información del curso'),
       ),
     );
   }
 
-  Widget _buildContent(bool isConnected) {
+  Widget _buildContent() {
     return Center(
       child: Container(
         width: 390,
         padding: const EdgeInsets.only(top: 24, left: 16, right: 16),
         child: Column(
           children: [
-            if (!isConnected) OfflineBanner(),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(

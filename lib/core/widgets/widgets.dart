@@ -1,8 +1,9 @@
+export 'adaptive_logo.dart';
 export 'app_bar_widget.dart';
 export 'badge_widget.dart';
 export 'chip_widget.dart';
 export 'image_widgets/image_widgets.dart';
-export 'offline_banner.dart'; 
+export 'offline_banner.dart';
 export 'search_widgets/search_bar_widget.dart';
 export 'section_header_widget.dart';
 export 'shadow_container.dart';

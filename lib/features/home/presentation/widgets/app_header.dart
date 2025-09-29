@@ -1,6 +1,6 @@
 import 'package:finny/core/extension/build_context_extension.dart';
+import 'package:finny/core/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import 'theme_switcher.dart';
 
@@ -60,8 +60,7 @@ class AppHeader extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SvgPicture.asset(
-              'assets/images/logo.svg',
+            AdaptiveLogo(
               width: 79.11418151855469,
               height: 24.000259399414062,
             ),
