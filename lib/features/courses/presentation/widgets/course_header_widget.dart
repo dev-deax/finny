@@ -29,6 +29,10 @@ class CourseHeaderWidget extends StatelessWidget {
       imageUrl: course.iconUrl,
       fit: BoxFit.cover,
       errorMessage: 'Sin conexión a internet',
+      placeholder: ImagePlaceholderWidget(
+        width: 358,
+        height: 268,
+      ),
     );
   }
 

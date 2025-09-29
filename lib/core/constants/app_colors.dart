@@ -64,7 +64,7 @@ class AppColors {
   static const Color darkOnPrimaryContainer = Color(0xFFF3F0FF);
   static const Color darkPrimaryFixed = Color(0xFFA855F7);
   static const Color darkPrimaryFixedDim = Color(0xFF8B5CF6);
-  static const Color darkOnPrimaryFixed = Color(0xFF000000);
+  static const Color darkOnPrimaryFixed = Color(0xFF1F2937);
   static const Color darkOnPrimaryFixedVariant = Color(0xFFF3F0FF);
 
   static const Color darkSecondary = Color(0xFF9CA3AF);
@@ -82,7 +82,7 @@ class AppColors {
   static const Color darkOnTertiaryContainer = Color(0xFFF9FAFB);
   static const Color darkTertiaryFixed = Color(0xFF6B7280);
   static const Color darkTertiaryFixedDim = Color(0xFF4B5563);
-  static const Color darkOnTertiaryFixed = Color(0xFF000000);
+  static const Color darkOnTertiaryFixed = Color(0xFF9CA3AF);
   static const Color darkOnTertiaryFixedVariant = Color(0xFFF9FAFB);
 
   static const Color darkError = Color(0xFFF87171);

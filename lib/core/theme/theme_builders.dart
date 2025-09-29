@@ -41,7 +41,7 @@ class ThemeBuilders {
       onPrimary: isDark ? AppColors.darkOnPrimary : AppColors.lightOnPrimary,
       primaryContainer: isDark ? AppColors.darkPrimaryContainer : AppColors.lightPrimaryContainer,
       onPrimaryContainer: isDark ? AppColors.darkOnPrimaryContainer : AppColors.lightOnPrimaryContainer,
-      onPrimaryFixed: isDark ? AppColors.darkOnPrimaryFixed : AppColors.lightOnPrimaryFixed,
+      onPrimaryFixed: AppColors.lightOnPrimaryFixed,
       onPrimaryFixedVariant: isDark ? AppColors.darkOnPrimaryFixedVariant : AppColors.lightOnPrimaryFixedVariant,
       secondaryContainer: isDark ? AppColors.darkSecondaryContainer : AppColors.lightSecondaryContainer,
       onSecondary: isDark ? AppColors.darkOnSecondary : AppColors.lightOnSecondary,
