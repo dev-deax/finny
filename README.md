@@ -582,21 +582,21 @@ log('Información general');
 
 ## 📸 Capturas
 
-![Screenshot 1](screenshots/Screenshot_1759132946.png)
-![Screenshot 2](screenshots/Screenshot_1759132956.png)
-![Screenshot 3](screenshots/Screenshot_1759132968.png)
-![Screenshot 4](screenshots/Screenshot_1759132979.png)
-![Screenshot 5](screenshots/Screenshot_1759132994.png)
-![Screenshot 6](screenshots/Screenshot_1759133012.png)
-![Screenshot 7](screenshots/Screenshot_1759133036.png)
-![Screenshot 8](screenshots/Screenshot_1759133355.png)
-![Screenshot 9](screenshots/Screenshot_1759133361.png)
-![Screenshot 10](screenshots/Screenshot_1759133367.png)
-![Screenshot 11](screenshots/Screenshot_1759133380.png)
-![Screenshot 12](screenshots/Screenshot_1759133398.png)
-![Screenshot 13](screenshots/Screenshot_1759133414.png)
-![Screenshot 14](screenshots/Screenshot_1759133443.png)
-![Screenshot 15](screenshots/Screenshot_1759134238.png)
-![Screenshot 16](screenshots/Screenshot_1759134249.png)
+<img src="screenshots/Screenshot_1759132946.png" width="200">
+<img src="screenshots/Screenshot_1759132956.png" width="200">
+<img src="screenshots/Screenshot_1759132968.png" width="200">
+<img src="screenshots/Screenshot_1759132979.png" width="200">
+<img src="screenshots/Screenshot_1759132994.png" width="200">
+<img src="screenshots/Screenshot_1759133012.png" width="200">
+<img src="screenshots/Screenshot_1759133036.png" width="200">
+<img src="screenshots/Screenshot_1759133355.png" width="200">
+<img src="screenshots/Screenshot_1759133361.png" width="200">
+<img src="screenshots/Screenshot_1759133367.png" width="200">
+<img src="screenshots/Screenshot_1759133380.png" width="200">
+<img src="screenshots/Screenshot_1759133398.png" width="200">
+<img src="screenshots/Screenshot_1759133414.png" width="200">
+<img src="screenshots/Screenshot_1759133443.png" width="200">
+<img src="screenshots/Screenshot_1759134238.png" width="200">
+<img src="screenshots/Screenshot_1759134249.png" width="200">
 
 **Desarrollado con ❤️ usando Flutter**
