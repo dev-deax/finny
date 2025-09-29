@@ -1,95 +1,134 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:finny/core/extension/build_context_extension.dart';
+import 'package:finny/core/widgets/badge_widget.dart';
+import 'package:finny/core/widgets/image_widgets/image_widgets.dart';
 import 'package:finny/features/courses/domain/entities/course.dart';
+import 'package:finny/features/courses/presentation/screens/course_detail_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-class CourseCard extends StatelessWidget {
+class CourseCard extends ConsumerWidget {
   final Course course;
 
   const CourseCard({super.key, required this.course});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
+      width: 358,
       margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: context.colorScheme.surface,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [BoxShadow(color: context.colorScheme.shadow.withValues(alpha: 0.1), blurRadius: 8, offset: const Offset(0, 2))],
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: context.colorScheme.secondaryFixed, width: 1),
+        boxShadow: [BoxShadow(color: context.colorScheme.shadow.withValues(alpha: 0.1), blurRadius: 2, offset: const Offset(0, 1), spreadRadius: 0)],
       ),
-      child: Row(
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(8),
+          onTap: () {
+            context.pushNamed(
+              CourseDetailScreen.name,
+              extra: course,
+            );
+          },
+          child: _buildImageInfo(context),
+        ),
+      ),
+    );
+  }
+
+  Row _buildImageInfo(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        _buildImage(),
+        const SizedBox(width: 16),
+        Expanded(child: _buildInfo(context)),
+      ],
+    );
+  }
+
+  Widget _buildInfo(BuildContext context) {
+    return SizedBox(
+      width: 206,
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: CachedNetworkImage(
-              imageUrl: course.imageUrl,
-              width: 80,
-              height: 80,
-              fit: BoxFit.cover,
-              placeholder: (context, url) => Container(
-                width: 80,
-                height: 80,
-                color: context.colorScheme.outline.withValues(alpha: 0.3),
-                child: Icon(Icons.image, color: context.colorScheme.outline),
+          Row(
+            children: [
+              BadgeWidget(
+                text: course.type.toUpperCase(),
+                icon: const Icon(Icons.book, size: 12),
               ),
-              errorWidget: (context, url, error) => Container(
-                width: 80,
-                height: 80,
-                color: context.colorScheme.outline.withValues(alpha: 0.3),
-                child: Icon(Icons.error, color: context.colorScheme.outline),
-              ),
-            ),
+            ],
           ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(color: context.colorScheme.surfaceContainerHighest, borderRadius: BorderRadius.circular(12)),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(course.category.icon, style: context.textTheme.bodySmall),
-                      const SizedBox(width: 4),
-                      Text(
-                        course.category.displayName,
-                        style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500, color: context.colorScheme.primary),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  course.title,
-                  style: context.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  course.description,
-                  style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w400),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    Text(course.rating.toString(), style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500)),
-                    const SizedBox(width: 4),
-                    Icon(Icons.star, size: 12, color: context.colorScheme.primary),
-                    const SizedBox(width: 4),
-                    Text('(${course.reviewCount.toString()}k reseñas)', style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w400)),
-                  ],
-                ),
-              ],
-            ),
-          ),
+          const SizedBox(height: 8),
+          _buildTitleSummary(context),
+          const SizedBox(height: 8),
+          _buildInfoAdditional(context),
         ],
+      ),
+    );
+  }
+
+  Widget _buildTitleSummary(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          course.title,
+          style: context.textTheme.labelMedium?.copyWith(fontSize: 12, color: context.colorScheme.outlineVariant),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
+        const SizedBox(height: 4),
+        Text(
+          course.summary,
+          style: context.textTheme.labelSmall?.copyWith(fontSize: 12, color: context.colorScheme.outline),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildInfoAdditional(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        BadgeWidget(
+          icon: const Icon(Icons.schedule, size: 12),
+          text: '${course.durationInHours} horas',
+          textStyle: context.textTheme.labelMedium,
+          backgroundColor: context.colorScheme.surface,
+        ),
+        if (course.levels.isNotEmpty)
+          BadgeWidget(
+            icon: const Icon(Icons.school, size: 12),
+            text: course.levels.first.toUpperCase(),
+            textStyle: context.textTheme.labelMedium,
+            backgroundColor: context.colorScheme.surface,
+          ),
+      ],
+    );
+  }
+
+  ClipRRect _buildImage() {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8),
+      child: NetworkSvgWithConnectivity(
+        imageUrl: course.iconUrl,
+        width: 112,
+        height: 109,
+        fit: BoxFit.cover,
+        placeholder: ImagePlaceholderWidget(
+          width: 112,
+          height: 109,
+        ),
+        errorMessage: 'Sin conexión',
       ),
     );
   }

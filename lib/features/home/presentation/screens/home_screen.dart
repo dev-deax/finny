@@ -1,94 +1,78 @@
-import 'package:finny/features/courses/domain/entities/course.dart';
-import 'package:finny/features/courses/domain/entities/progress.dart';
-import 'package:finny/features/courses/domain/entities/user.dart';
+import 'package:finny/features/courses/presentation/views/course_catalog_view.dart';
+import 'package:finny/features/courses/presentation/views/favorites_view.dart';
+import 'package:finny/features/home/presentation/views/home_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/extension/build_context_extension.dart';
-import '../widgets/app_header.dart';
+import '../../../../core/providers/connectivity_providers.dart';
+import '../../../../core/widgets/image_widgets/image_widgets.dart';
 import '../widgets/bottom_navigation.dart';
-import '../widgets/course_card.dart';
-import '../widgets/filter_section.dart';
-import '../widgets/progress_section.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   static const String name = 'home';
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  String selectedFilter = 'all';
-  int currentBottomNavIndex = 2;
-  final User user = const User(id: '1', name: 'Juan', streakDays: 1);
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  int currentBottomNavIndex = 0;
+  late Widget body;
 
-  final Progress progress = const Progress(totalCourses: 20, inProgressCourses: 2, completedCourses: 9, notStartedCourses: 4);
+  @override
+  void initState() {
+    super.initState();
+    body = HomeView(onViewAllCourses: _goToCourses);
+  }
 
-  final List<Course> courses = [
-    const Course(
-      id: '1',
-      title: 'Planificación de Finanzas Personales',
-      description: 'Mejorar tu situación y tu calidad de vida.',
-      category: CourseCategory.personalFinance,
-      imageUrl: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=200&h=200&fit=crop',
-      rating: 4.7,
-      reviewCount: 23,
-      status: CourseStatus.notStarted,
-    ),
-    const Course(
-      id: '2',
-      title: 'Inversión en Renta Fija',
-      description: 'Un curso donde aprenderás desde cero a invertir en instrumentos...',
-      category: CourseCategory.investments,
-      imageUrl: 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=200&h=200&fit=crop',
-      rating: 4.7,
-      reviewCount: 23,
-      status: CourseStatus.notStarted,
-    ),
-  ];
+  void _goToCourses() {
+    setState(() => currentBottomNavIndex = 1);
+
+    setState(() => body = const CourseCatalogView());
+  }
 
   @override
   Widget build(BuildContext context) {
+    final connectivityState = ref.watch(connectivityStateProvider);
+
+    return connectivityState.when(
+      data: (isConnected) {
+        return _buildScaffold(isConnected);
+      },
+      loading: () => _buildScaffold(true),
+      error: (_, __) => _buildScaffold(false),
+    );
+  }
+
+  Widget _buildScaffold(bool isConnected) {
     return Scaffold(
       backgroundColor: context.colorScheme.surface,
       body: SafeArea(
         child: Column(
           children: [
-            AppHeader(userName: user.name, streakDays: user.streakDays),
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 20),
-                    ProgressSection(progress: progress),
-                    const SizedBox(height: 32),
-                    FilterSection(
-                      selectedFilter: selectedFilter,
-                      onFilterChanged: (filter) {
-                        setState(() {
-                          selectedFilter = filter;
-                        });
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    ...courses.map((course) => CourseCard(course: course)),
-                    const SizedBox(height: 20),
-                  ],
-                ),
-              ),
-            ),
+            if (!isConnected) OfflineBanner(),
+            Expanded(child: body),
           ],
         ),
       ),
       bottomNavigationBar: CustomBottomNavigation(
         currentIndex: currentBottomNavIndex,
         onTap: (index) {
-          setState(() {
-            currentBottomNavIndex = index;
-          });
+          setState(() => currentBottomNavIndex = index);
+
+          switch (index) {
+            case 0:
+              body = HomeView(onViewAllCourses: _goToCourses);
+              break;
+            case 1:
+              body = const CourseCatalogView();
+              break;
+            case 2:
+              body = const FavoritesView();
+              break;
+          }
         },
       ),
     );

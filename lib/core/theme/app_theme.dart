@@ -14,13 +14,13 @@ class AppTheme {
 
   static ThemeData _buildTheme({required Brightness brightness, required double cardElevation, required double shadowAlpha}) {
     return ThemeData(
-      
       useMaterial3: true,
       brightness: brightness,
       colorScheme: ThemeBuilders.buildColorScheme(brightness: brightness),
       appBarTheme: ThemeBuilders.buildAppBarTheme(),
       cardTheme: ThemeBuilders.buildCardTheme(elevation: cardElevation, shadowAlpha: shadowAlpha),
-      textTheme: ThemeBuilders.buildTextTheme(),
+      textTheme: ThemeBuilders.buildTextTheme(brightness: brightness),
+      iconTheme: ThemeBuilders.buildIconTheme(brightness: brightness),
       elevatedButtonTheme: ThemeBuilders.buildElevatedButtonTheme(),
       outlinedButtonTheme: ThemeBuilders.buildOutlinedButtonTheme(),
     );
