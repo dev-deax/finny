@@ -582,21 +582,12 @@ log('Información general');
 
 ## 📸 Capturas
 
-<img src="screenshots/Screenshot_1759132946.png" width="200">
-<img src="screenshots/Screenshot_1759132956.png" width="200">
-<img src="screenshots/Screenshot_1759132968.png" width="200">
-<img src="screenshots/Screenshot_1759132979.png" width="200">
-<img src="screenshots/Screenshot_1759132994.png" width="200">
-<img src="screenshots/Screenshot_1759133012.png" width="200">
-<img src="screenshots/Screenshot_1759133036.png" width="200">
-<img src="screenshots/Screenshot_1759133355.png" width="200">
-<img src="screenshots/Screenshot_1759133361.png" width="200">
-<img src="screenshots/Screenshot_1759133367.png" width="200">
-<img src="screenshots/Screenshot_1759133380.png" width="200">
-<img src="screenshots/Screenshot_1759133398.png" width="200">
-<img src="screenshots/Screenshot_1759133414.png" width="200">
-<img src="screenshots/Screenshot_1759133443.png" width="200">
-<img src="screenshots/Screenshot_1759134238.png" width="200">
-<img src="screenshots/Screenshot_1759134249.png" width="200">
+<img src="screenshots/Screenshot_1759132946.png" width="200"> <img src="screenshots/Screenshot_1759132956.png" width="200"> <img src="screenshots/Screenshot_1759132968.png" width="200"> <img src="screenshots/Screenshot_1759132979.png" width="200">
+
+<img src="screenshots/Screenshot_1759132994.png" width="200"> <img src="screenshots/Screenshot_1759133012.png" width="200"> <img src="screenshots/Screenshot_1759133036.png" width="200"> <img src="screenshots/Screenshot_1759133355.png" width="200">
+
+<img src="screenshots/Screenshot_1759133361.png" width="200"> <img src="screenshots/Screenshot_1759133367.png" width="200"> <img src="screenshots/Screenshot_1759133380.png" width="200"> <img src="screenshots/Screenshot_1759133398.png" width="200">
+
+<img src="screenshots/Screenshot_1759133414.png" width="200"> <img src="screenshots/Screenshot_1759133443.png" width="200"> <img src="screenshots/Screenshot_1759134238.png" width="200"> <img src="screenshots/Screenshot_1759134249.png" width="200">
 
 **Desarrollado con ❤️ usando Flutter**
