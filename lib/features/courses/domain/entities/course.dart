@@ -9,9 +9,11 @@ class Course extends Equatable {
   final String type;
   final String title;
   final int durationInMinutes;
+  final int durationInHours;
   final String iconUrl;
   final String locale;
   final String url;
+  final bool isFavorite;
 
   const Course({
     required this.summary,
@@ -22,9 +24,11 @@ class Course extends Equatable {
     required this.type,
     required this.title,
     required this.durationInMinutes,
+    required this.durationInHours,
     required this.iconUrl,
     required this.locale,
     required this.url,
+    this.isFavorite = false,
   });
 
   @override
@@ -37,9 +41,11 @@ class Course extends Equatable {
         type,
         title,
         durationInMinutes,
+        durationInHours,
         iconUrl,
         locale,
         url,
+        isFavorite,
       ];
 
   Course copyWith({
@@ -51,9 +57,11 @@ class Course extends Equatable {
     String? type,
     String? title,
     int? durationInMinutes,
+    int? durationInHours,
     String? iconUrl,
     String? locale,
     String? url,
+    bool? isFavorite,
   }) {
     return Course(
       summary: summary ?? this.summary,
@@ -64,23 +72,16 @@ class Course extends Equatable {
       type: type ?? this.type,
       title: title ?? this.title,
       durationInMinutes: durationInMinutes ?? this.durationInMinutes,
+      durationInHours: durationInHours ?? this.durationInHours,
       iconUrl: iconUrl ?? this.iconUrl,
       locale: locale ?? this.locale,
       url: url ?? this.url,
+      isFavorite: isFavorite ?? this.isFavorite,
     );
   }
 
   @override
   String toString() {
-    return 'Course(summary: $summary, levels: $levels, roles: $roles, products: $products, uid: $uid, type: $type, title: $title, durationInMinutes: $durationInMinutes, iconUrl: $iconUrl, locale: $locale, url: $url)';
+    return 'Course(summary: $summary, levels: $levels, roles: $roles, products: $products, uid: $uid, type: $type, title: $title, durationInMinutes: $durationInMinutes, iconUrl: $iconUrl, locale: $locale, url: $url, isFavorite: $isFavorite)';
   }
-}
-
-enum CourseLevel {
-  beginner('Principiante'),
-  intermediate('Intermedio'),
-  advanced('Avanzado');
-
-  final String displayName;
-  const CourseLevel(this.displayName);
 }

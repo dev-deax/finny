@@ -8,25 +8,25 @@ class AppColors {
   static const Color lightOnPrimaryContainer = Color(0xFF6D28D9);
   static const Color lightPrimaryFixed = Color(0xFF8B5CF6);
   static const Color lightPrimaryFixedDim = Color(0xFF6D28D9);
-  static const Color lightOnPrimaryFixed = Color(0xFFFFFFFF);
+  static const Color lightOnPrimaryFixed = Color(0xFFE0DCFC);
   static const Color lightOnPrimaryFixedVariant = Color(0xFF6D28D9);
 
   static const Color lightSecondary = Color(0xFF6B7280);
   static const Color lightOnSecondary = Color(0xFFFFFFFF);
-  static const Color lightSecondaryContainer = Color(0xFFF3F4F6);
+  static const Color lightSecondaryContainer = Color(0xFFDDB8FA);
   static const Color lightOnSecondaryContainer = Color(0xFF374151);
-  static const Color lightSecondaryFixed = Color(0xFF6B7280);
+  static const Color lightSecondaryFixed = Color(0xFFEAECF0);
   static const Color lightSecondaryFixedDim = Color(0xFF4B5563);
   static const Color lightOnSecondaryFixed = Color(0xFFFFFFFF);
-  static const Color lightOnSecondaryFixedVariant = Color(0xFF374151);
+  static const Color lightOnSecondaryFixedVariant = Color(0xFF333333);
 
   static const Color lightTertiary = Color(0xFF9CA3AF);
   static const Color lightOnTertiary = Color(0xFFFFFFFF);
-  static const Color lightTertiaryContainer = Color(0xFFF9FAFB);
-  static const Color lightOnTertiaryContainer = Color(0xFF522B6F);
-  static const Color lightTertiaryFixed = Color(0xFF9CA3AF);
+  static const Color lightTertiaryContainer = Color(0xFFF4E9FE);
+  static const Color lightOnTertiaryContainer = Color(0xFF400C5F);
+  static const Color lightTertiaryFixed = Color(0xFFDDB8FA);
   static const Color lightTertiaryFixedDim = Color(0xFF6B7280);
-  static const Color lightOnTertiaryFixed = Color(0xFFFFFFFF);
+  static const Color lightOnTertiaryFixed = Color(0xFF6D7280);
   static const Color lightOnTertiaryFixedVariant = Color(0xFF1F2937);
 
   static const Color lightError = Color(0xFFEF4444);
@@ -34,18 +34,18 @@ class AppColors {
   static const Color lightErrorContainer = Color(0xFFFEF2F2);
   static const Color lightOnErrorContainer = Color(0xFFDC2626);
 
-  static const Color lightOutline = Color(0xFFD1D5DB);
-  static const Color lightOutlineVariant = Color(0xFFE5E7EB);
+  static const Color lightOutline = Color(0xFF667085);
+  static const Color lightOutlineVariant = Color(0xFF26272B);
 
   static const Color lightSurface = Color(0xFFFFFFFF);
-  static const Color lightOnSurface = Color(0xFF000000);
+  static const Color lightOnSurface = Color(0xFF26272B);
   static const Color lightSurfaceDim = Color(0xFFF9FAFB);
   static const Color lightSurfaceBright = Color(0xFFFFFFFF);
   static const Color lightSurfaceContainerLowest = Color(0xFFFFFFFF);
   static const Color lightSurfaceContainerLow = Color(0xFFF9FAFB);
-  static const Color lightSurfaceContainer = Color(0xFFF3F4F6);
+  static const Color lightSurfaceContainer = Color(0xFFEFEBFF);
   static const Color lightSurfaceContainerHigh = Color(0xFFE5E7EB);
-  static const Color lightSurfaceContainerHighest = Color(0xFFD1D5DB);
+  static const Color lightSurfaceContainerHighest = Color(0xFFCCCCCC);
   static const Color lightOnSurfaceVariant = Color(0xFF6B7280);
   static const Color lightSurfaceVariant = Color(0xFFF3F4F6);
 
@@ -55,7 +55,7 @@ class AppColors {
 
   static const Color lightShadow = Color(0xFF000000);
   static const Color lightScrim = Color(0xFF000000);
-  static const Color lightSurfaceTint = Color(0xFF8B5CF6);
+  static const Color lightSurfaceTint = Color(0xFFAE55EE);
 
   // Dark Theme Colors
   static const Color darkPrimary = Color(0xFFA855F7);
@@ -113,11 +113,6 @@ class AppColors {
   static const Color darkScrim = Color(0xFF000000);
   static const Color darkSurfaceTint = Color(0xFFA855F7);
 
-  // Additional semantic colors (same for both themes)
-  static const Color success = Color(0xFF10B981);
-  static const Color warning = Color(0xFFF59E0B);
-
-  // Legacy aliases for backward compatibility (using light theme as default)
   static const Color primaryPurple = lightPrimary;
   static const Color lightPurple = lightPrimaryContainer;
   static const Color darkPurple = lightPrimaryFixedDim;

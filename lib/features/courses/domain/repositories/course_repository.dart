@@ -1,8 +1,6 @@
 import '../entities/course.dart';
 
 abstract class CourseRepository {
-  Future<void> clearLocalCourses();
-
   Future<Course?> getCourseById(String id);
 
   Future<List<Course>> getCourses({
@@ -15,8 +13,4 @@ abstract class CourseRepository {
     List<String>? roles,
     List<String>? subjects,
   });
-
-  Future<List<Course>> getLocalCourses();
-
-  Future<void> saveCoursesLocally(List<Course> courses);
 }

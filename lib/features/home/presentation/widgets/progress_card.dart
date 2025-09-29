@@ -10,32 +10,32 @@ class ProgressCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-        decoration: BoxDecoration(
-          color: context.colorScheme.surface,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: context.colorScheme.outline.withValues(alpha: 0.5), width: 1),
-          boxShadow: [BoxShadow(color: context.colorScheme.shadow.withValues(alpha: 0.1), blurRadius: 2, offset: const Offset(0, 1), spreadRadius: 0)],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              number.toString(),
-              style: context.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold, color: context.colorScheme.onTertiaryContainer),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              label,
-              style: context.textTheme.labelSmall?.copyWith(fontWeight: FontWeight.w500, color: context.colorScheme.onTertiaryContainer),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-            ),
-          ],
-        ),
+    return Container(
+      width: 83.5,
+      height: 83.5,
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: context.colorScheme.surface,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: context.colorScheme.tertiaryFixed.withValues(alpha: 0.5), width: 1),
+        boxShadow: [BoxShadow(color: const Color(0x0D101828), blurRadius: 2, offset: const Offset(0, 1), spreadRadius: 0)],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            number.toString(),
+            style: context.textTheme.titleLarge?.copyWith(color: context.colorScheme.onTertiaryContainer),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: context.textTheme.titleLarge?.copyWith(fontSize: 12, color: context.colorScheme.onTertiaryContainer),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+          ),
+        ],
       ),
     );
   }

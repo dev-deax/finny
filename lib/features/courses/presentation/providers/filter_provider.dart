@@ -1,5 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/mixins/toggle_mixin.dart';
+import '../../../../core/providers/connectivity_providers.dart';
 import '../../domain/entities/filter_option.dart';
 import '../../domain/repositories/filter_repository.dart';
 import '../../domain/usecases/get_filter_options.dart';
@@ -8,6 +10,8 @@ import '../../infrastructure/repositories/filter_repository_impl.dart';
 import 'course/course_repository_provider.dart';
 
 final filterOptionsProvider = FutureProvider.family<List<FilterOption>, String>((ref, filterType) async {
+  ref.watch(connectivityStateProvider);
+
   final getFilterOptions = ref.read(getFilterOptionsUseCaseProvider);
 
   switch (filterType) {
@@ -26,25 +30,22 @@ final filterOptionsProvider = FutureProvider.family<List<FilterOption>, String>(
 
 final filterStateProvider = StateNotifierProvider<FilterStateNotifier, FilterState>((ref) => FilterStateNotifier());
 
-// Provider para el datasource de la API
 final filterApiDataSourceProvider = Provider<FilterApiDataSource>((ref) {
   final dio = ref.watch(dioProvider);
   return FilterApiDataSourceImpl(dio: dio);
 });
 
-// Provider para el repositorio
 final filterRepositoryProvider = Provider<FilterRepository>((ref) {
   final dataSource = ref.read(filterApiDataSourceProvider);
   return FilterRepositoryImpl(dataSource: dataSource);
 });
 
-// Provider para el caso de uso
 final getFilterOptionsUseCaseProvider = Provider<GetFilterOptions>((ref) {
   final repository = ref.read(filterRepositoryProvider);
   return GetFilterOptions(repository: repository);
 });
 
-class FilterStateNotifier extends StateNotifier<FilterState> {
+class FilterStateNotifier extends StateNotifier<FilterState> with ToggleMixin<FilterOption> {
   FilterStateNotifier() : super(const FilterState());
 
   void updateSearchQuery(String query) {
@@ -52,51 +53,23 @@ class FilterStateNotifier extends StateNotifier<FilterState> {
   }
 
   void toggleProduct(FilterOption product) {
-    final currentProducts = List<FilterOption>.from(state.selectedProducts);
-
-    if (currentProducts.any((p) => p.id == product.id)) {
-      currentProducts.removeWhere((p) => p.id == product.id);
-    } else {
-      currentProducts.add(product);
-    }
-
-    state = state.copyWith(selectedProducts: currentProducts);
+    final newProducts = toggleItem(state.selectedProducts, product, (a, b) => a.id == b.id);
+    state = state.copyWith(selectedProducts: newProducts);
   }
 
   void toggleRole(FilterOption role) {
-    final currentRoles = List<FilterOption>.from(state.selectedRoles);
-
-    if (currentRoles.any((r) => r.id == role.id)) {
-      currentRoles.removeWhere((r) => r.id == role.id);
-    } else {
-      currentRoles.add(role);
-    }
-
-    state = state.copyWith(selectedRoles: currentRoles);
+    final newRoles = toggleItem(state.selectedRoles, role, (a, b) => a.id == b.id);
+    state = state.copyWith(selectedRoles: newRoles);
   }
 
   void toggleLevel(FilterOption level) {
-    final currentLevels = List<FilterOption>.from(state.selectedLevels);
-
-    if (currentLevels.any((l) => l.id == level.id)) {
-      currentLevels.removeWhere((l) => l.id == level.id);
-    } else {
-      currentLevels.add(level);
-    }
-
-    state = state.copyWith(selectedLevels: currentLevels);
+    final newLevels = toggleItem(state.selectedLevels, level, (a, b) => a.id == b.id);
+    state = state.copyWith(selectedLevels: newLevels);
   }
 
   void toggleSubject(FilterOption subject) {
-    final currentSubjects = List<FilterOption>.from(state.selectedSubjects);
-
-    if (currentSubjects.any((s) => s.id == subject.id)) {
-      currentSubjects.removeWhere((s) => s.id == subject.id);
-    } else {
-      currentSubjects.add(subject);
-    }
-
-    state = state.copyWith(selectedSubjects: currentSubjects);
+    final newSubjects = toggleItem(state.selectedSubjects, subject, (a, b) => a.id == b.id);
+    state = state.copyWith(selectedSubjects: newSubjects);
   }
 
   void clearAllFilters() {

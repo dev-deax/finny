@@ -6,25 +6,16 @@ import '../../../domain/entities/course.dart';
 import '../../../domain/repositories/course_repository.dart';
 import 'course_repository_provider.dart';
 
-// Provider para obtener un curso específico por ID
 final courseByIdProvider = FutureProvider.family<Course?, String>((ref, courseId) async {
   final courseRepository = ref.watch(courseRepositoryProvider);
   return await courseRepository.getCourseById(courseId);
 });
 
-// Provider para el estado de la lista de cursos
 final courseListProvider = StateNotifierProvider<CourseListNotifier, CourseListState>((ref) {
   final courseRepository = ref.watch(courseRepositoryProvider);
   return CourseListNotifier(courseRepository: courseRepository);
 });
 
-// Provider para obtener cursos locales
-final localCoursesProvider = FutureProvider<List<Course>>((ref) async {
-  final courseRepository = ref.watch(courseRepositoryProvider);
-  return await courseRepository.getLocalCourses();
-});
-
-// Notifier para la gestión del estado de cursos
 class CourseListNotifier extends StateNotifier<CourseListState> {
   final CourseRepository _courseRepository;
 
@@ -80,10 +71,19 @@ class CourseListNotifier extends StateNotifier<CourseListState> {
       );
     } catch (e) {
       log('Error al cargar cursos: $e');
-      state = state.copyWith(
-        isLoading: false,
-        error: e.toString(),
-      );
+
+      if (e.toString().contains('conexión') || e.toString().contains('internet')) {
+        state = state.copyWith(
+          courses: [],
+          isLoading: false,
+          error: 'Sin conexión a internet. Los cursos no están disponibles sin conexión.',
+        );
+      } else {
+        state = state.copyWith(
+          isLoading: false,
+          error: e.toString(),
+        );
+      }
     }
   }
 

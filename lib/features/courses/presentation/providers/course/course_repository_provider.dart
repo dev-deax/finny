@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../domain/repositories/course_repository.dart';
 import '../../../infrastructure/datasources/course_api_datasource.dart';
-import '../../../infrastructure/datasources/isar_datasource.dart';
+import '../../../infrastructure/datasources/local_datasource.dart';
 import '../../../infrastructure/repositories/course_repository_impl.dart';
 
 // Provider para CourseApiDataSource

@@ -21,9 +21,8 @@ class CustomBottomNavigation extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildNavItem(context: context, icon: Icons.home, label: 'Inicio', index: 0),
-              _buildNavItem(context: context, icon: Icons.pie_chart, label: 'Presupuesto', index: 1),
-              _buildNavItem(context: context, icon: Icons.school, label: 'Cursos', index: 2),
-              _buildNavItem(context: context, icon: Icons.favorite, label: 'Favoritos', index: 3),
+              _buildNavItem(context: context, icon: Icons.school, label: 'Cursos', index: 1),
+              _buildNavItem(context: context, icon: Icons.favorite, label: 'Favoritos', index: 2),
             ],
           ),
         ),
@@ -39,7 +38,7 @@ class CustomBottomNavigation extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 24, color: isSelected ? context.colorScheme.primary : context.colorScheme.onSurface.withValues(alpha: 0.6)),
+          Icon(icon, size: 24, color: isSelected ? null : context.colorScheme.onSurface.withValues(alpha: 0.6)),
           const SizedBox(height: 4),
           Text(
             label,

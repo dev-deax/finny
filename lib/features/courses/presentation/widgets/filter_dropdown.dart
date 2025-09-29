@@ -1,5 +1,4 @@
-import 'package:finny/core/widgets/state_widgets/error_state_widget.dart';
-import 'package:finny/core/widgets/state_widgets/loading_state_widget.dart';
+import 'package:finny/core/widgets/state_widgets/state_display_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -97,7 +96,7 @@ class _FilterDropdownState extends ConsumerState<FilterDropdown> {
         mainAxisSize: MainAxisSize.min,
         children: [
           _buildSearch(),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           filterOptionsAsync.when(
             data: (options) {
               _allOptions = options;
@@ -124,13 +123,75 @@ class _FilterDropdownState extends ConsumerState<FilterDropdown> {
             },
             loading: () => const Padding(
               padding: EdgeInsets.all(32.0),
-              child: LoadingStateWidget(),
+              child: StateDisplayWidget(
+                type: StateType.loading,
+                message: 'Cargando filtros...',
+              ),
             ),
-            error: (error, stack) => Padding(
-              padding: const EdgeInsets.all(32.0),
-              child: ErrorStateWidget(message: 'Error al cargar ${widget.title.toLowerCase()}'),
-            ),
+            error: (error, stack) {
+              if (error.toString().contains('conexión') || error.toString().contains('internet')) {
+                return Padding(
+                  padding: const EdgeInsets.all(32.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.wifi_off_rounded,
+                        size: 64,
+                        color: Colors.grey,
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'Sin conexión a internet',
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Los filtros no están disponibles sin conexión. Conecta a internet para usar los filtros.',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          color: Colors.grey,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          ref.invalidate(filterOptionsProvider(widget.filterType));
+                        },
+                        icon: const Icon(Icons.refresh),
+                        label: const Text('Reintentar'),
+                      ),
+                    ],
+                  ),
+                );
+              }
+
+              return Padding(
+                padding: const EdgeInsets.all(32.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    StateDisplayWidget(
+                      type: StateType.error,
+                      message: 'Error al cargar ${widget.title.toLowerCase()}',
+                    ),
+                    const SizedBox(height: 16),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        ref.invalidate(filterOptionsProvider(widget.filterType));
+                      },
+                      icon: const Icon(Icons.refresh),
+                      label: const Text('Reintentar'),
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
+          SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
         ],
       ),
     );

@@ -12,49 +12,69 @@ class AppHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-      child: Column(
-        children: [
-          Row(
+    return Column(
+      children: [
+        _buildAppBar(context),
+        Container(
+          margin: const EdgeInsets.only(top: 12, left: 16, right: 16),
+          height: 24,
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SvgPicture.asset('assets/images/logo.svg', height: 24),
-              Row(
-                children: [
-                  Icon(Icons.visibility_outlined, color: context.colorScheme.onSurface.withValues(alpha: 0.7), size: 24),
-                  const SizedBox(width: 16),
-                  Icon(Icons.notifications_outlined, color: context.colorScheme.onSurface.withValues(alpha: 0.7), size: 24),
-                  const SizedBox(width: 8),
-                  const SimpleThemeToggle(),
-                ],
-              ),
+              _buildUserName(context),
+              _buildStreakDays(context),
             ],
           ),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Hola, $userName', style: context.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(color: context.colorScheme.surfaceContainer, borderRadius: BorderRadius.circular(16)),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.flash_on, size: 16, color: context.colorScheme.primary),
-                    const SizedBox(width: 4),
-                    Text(
-                      '$streakDays día de racha',
-                      style: context.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w500, color: context.colorScheme.primary),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
+
+  Widget _buildUserName(BuildContext context) => Text('Hola, $userName', style: context.textTheme.titleMedium);
+
+  Widget _buildStreakDays(BuildContext context) => Container(
+        height: 24,
+        padding: const EdgeInsets.only(top: 2, right: 8, bottom: 2, left: 4),
+        decoration: BoxDecoration(
+          color: context.colorScheme.surfaceContainer,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          children: [
+            Icon(Icons.flash_on, size: 20, color: context.colorScheme.primary),
+            const SizedBox(width: 2),
+            Text('$streakDays día de racha', style: context.textTheme.labelMedium?.copyWith(color: context.colorScheme.primary)),
+          ],
+        ),
+      );
+
+  Widget _buildAppBar(BuildContext context) => Container(
+        width: 390,
+        height: 64,
+        padding: const EdgeInsets.only(
+          top: 12,
+          right: 16,
+          bottom: 12,
+          left: 16,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SvgPicture.asset(
+              'assets/images/logo.svg',
+              width: 79.11418151855469,
+              height: 24.000259399414062,
+            ),
+            Row(
+              children: [
+                Icon(Icons.visibility_outlined, color: context.colorScheme.onSurface.withValues(alpha: 0.7), size: 24),
+                const SizedBox(width: 16),
+                Icon(Icons.notifications_outlined, color: context.colorScheme.onSurface.withValues(alpha: 0.7), size: 24),
+                const SizedBox(width: 8),
+                const SimpleThemeToggle(),
+              ],
+            ),
+          ],
+        ),
+      );
 }

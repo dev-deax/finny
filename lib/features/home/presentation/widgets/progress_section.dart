@@ -1,4 +1,4 @@
-import 'package:finny/core/extension/build_context_extension.dart';
+import 'package:finny/core/widgets/widgets.dart';
 import 'package:finny/features/courses/domain/entities/progress.dart';
 import 'package:flutter/material.dart';
 
@@ -14,25 +14,17 @@ class ProgressSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Text(
-              'Tu progreso',
-              style: context.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w400, color: context.colorScheme.onSurface),
-            ),
-            const SizedBox(width: 8),
-            Icon(Icons.info_outline, size: 20, color: context.colorScheme.onSurface),
-          ],
-        ),
+        SectionHeaderWidget(text: 'Tu progreso'),
         const SizedBox(height: 16),
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             ProgressCard(number: progress.totalCourses, label: 'Cursos'),
-            const SizedBox(width: 12),
+            const SizedBox(width: 8),
             ProgressCard(number: progress.inProgressCourses, label: 'En curso'),
-            const SizedBox(width: 12),
+            const SizedBox(width: 8),
             ProgressCard(number: progress.completedCourses, label: 'Completos'),
-            const SizedBox(width: 12),
+            const SizedBox(width: 8),
             ProgressCard(number: progress.notStartedCourses, label: 'Sin iniciar'),
           ],
         ),

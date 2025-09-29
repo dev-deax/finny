@@ -1,6 +1,10 @@
+import 'package:finny/core/widgets/back_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/providers/connectivity_providers.dart';
+import '../../../../core/widgets/chip_widget.dart';
+import '../../domain/entities/filter_option.dart';
 import '../providers/filter_provider.dart';
 import 'filter_dropdown.dart';
 
@@ -8,18 +12,27 @@ class FilterBar extends ConsumerStatefulWidget {
   const FilterBar({super.key});
 
   @override
-  ConsumerState<FilterBar> createState() => _MobileFilterBarState();
+  ConsumerState<FilterBar> createState() => _FilterBarState();
 }
 
-class _MobileFilterBarState extends ConsumerState<FilterBar> {
+class _FilterBarState extends ConsumerState<FilterBar> {
   @override
   Widget build(BuildContext context) {
     final filterState = ref.watch(filterStateProvider);
+    final connectivityState = ref.watch(connectivityStateProvider);
 
+    return connectivityState.when(
+      data: (isConnected) => _buildFilterBar(context, filterState, isConnected),
+      loading: () => _buildFilterBar(context, filterState, true),
+      error: (_, __) => _buildFilterBar(context, filterState, false),
+    );
+  }
+
+  Widget _buildFilterBar(BuildContext context, FilterState filterState, bool isConnected) {
     return Column(
       children: [
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.surface,
             border: Border(
@@ -28,7 +41,6 @@ class _MobileFilterBarState extends ConsumerState<FilterBar> {
           ),
           child: Row(
             children: [
-              // Chip de "Todos los cursos" - siempre visible
               _buildAllCoursesChip(
                 filterState.hasActiveFilters,
                 () => ref.read(filterStateProvider.notifier).clearAllFilters(),
@@ -44,6 +56,7 @@ class _MobileFilterBarState extends ConsumerState<FilterBar> {
                         filterState.selectedProducts.length,
                         () => _showFilterOptions(context, 'products'),
                         filterState.selectedProducts.isNotEmpty,
+                        isEnabled: isConnected,
                       ),
                       const SizedBox(width: 8),
                       _buildQuickFilterChip(
@@ -51,6 +64,7 @@ class _MobileFilterBarState extends ConsumerState<FilterBar> {
                         filterState.selectedRoles.length,
                         () => _showFilterOptions(context, 'roles'),
                         filterState.selectedRoles.isNotEmpty,
+                        isEnabled: isConnected,
                       ),
                       const SizedBox(width: 8),
                       _buildQuickFilterChip(
@@ -58,6 +72,7 @@ class _MobileFilterBarState extends ConsumerState<FilterBar> {
                         filterState.selectedLevels.length,
                         () => _showFilterOptions(context, 'levels'),
                         filterState.selectedLevels.isNotEmpty,
+                        isEnabled: isConnected,
                       ),
                       const SizedBox(width: 8),
                       _buildQuickFilterChip(
@@ -65,6 +80,7 @@ class _MobileFilterBarState extends ConsumerState<FilterBar> {
                         filterState.selectedSubjects.length,
                         () => _showFilterOptions(context, 'subjects'),
                         filterState.selectedSubjects.isNotEmpty,
+                        isEnabled: isConnected,
                       ),
                     ],
                   ),
@@ -81,26 +97,10 @@ class _MobileFilterBarState extends ConsumerState<FilterBar> {
     bool hasActiveFilters,
     VoidCallback onTap,
   ) {
-    return GestureDetector(
+    return ChipWidget(
+      label: 'Todos los cursos',
+      isSelected: !hasActiveFilters,
       onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        decoration: BoxDecoration(
-          color: !hasActiveFilters ? Theme.of(context).primaryColor : Colors.grey.shade100,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: !hasActiveFilters ? Theme.of(context).primaryColor : Colors.grey.shade300,
-          ),
-        ),
-        child: Text(
-          'Todos los cursos',
-          style: TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-            color: !hasActiveFilters ? Colors.white : Colors.grey.shade700,
-          ),
-        ),
-      ),
     );
   }
 
@@ -108,51 +108,15 @@ class _MobileFilterBarState extends ConsumerState<FilterBar> {
     String label,
     int count,
     VoidCallback onTap,
-    bool isActive,
-  ) {
-    return GestureDetector(
+    bool isActive, {
+    bool isEnabled = true,
+  }) {
+    return ChipWidget(
+      label: label,
+      isSelected: isActive,
+      isEnabled: isEnabled,
+      count: count > 0 ? count : null,
       onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-        decoration: BoxDecoration(
-          color: isActive ? Theme.of(context).primaryColor.withValues(alpha: 0.1) : Colors.grey.shade100,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: isActive ? Theme.of(context).primaryColor : Colors.grey.shade300,
-          ),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: isActive ? Theme.of(context).primaryColor : Colors.grey.shade700,
-              ),
-            ),
-            if (count > 0) ...[
-              const SizedBox(width: 4),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Text(
-                  '$count',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ],
-        ),
-      ),
     );
   }
 
@@ -197,9 +161,9 @@ class _MobileFilterBarState extends ConsumerState<FilterBar> {
                     ),
                   ),
                   const Spacer(),
-                  IconButton(
+                  BackButtonWidget(
+                    icon: Icons.close,
                     onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.close),
                   ),
                 ],
               ),

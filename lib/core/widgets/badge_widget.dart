@@ -9,7 +9,6 @@ class BadgeWidget extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final BorderRadius? borderRadius;
   final TextStyle? textStyle;
-  final VoidCallback? onTap;
 
   const BadgeWidget({
     super.key,
@@ -20,18 +19,17 @@ class BadgeWidget extends StatelessWidget {
     this.padding,
     this.borderRadius,
     this.textStyle,
-    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    final defaultPadding = padding ?? const EdgeInsets.symmetric(horizontal: 8, vertical: 4);
-    final defaultBorderRadius = borderRadius ?? BorderRadius.circular(12);
-    final defaultBackgroundColor = backgroundColor ?? context.colorScheme.surfaceContainerHighest;
-    final defaultTextColor = textColor ?? context.colorScheme.primary;
+    final defaultPadding = padding ?? const EdgeInsets.only(left: 8, right: 8);
+    final defaultBorderRadius = borderRadius ?? BorderRadius.circular(100);
+    final defaultBackgroundColor = backgroundColor ?? context.colorScheme.surface;
+    final defaultTextColor = textColor ?? context.colorScheme.onSecondaryFixedVariant;
     final defaultTextStyle = textStyle ??
-        context.textTheme.bodySmall?.copyWith(
-          fontWeight: FontWeight.w500,
+        context.textTheme.labelSmall?.copyWith(
+          fontSize: 12,
           color: defaultTextColor,
         );
 
@@ -49,19 +47,16 @@ class BadgeWidget extends StatelessWidget {
       ],
     );
 
-    if (onTap != null) {
-      content = InkWell(
-        onTap: onTap,
-        borderRadius: defaultBorderRadius,
-        child: content,
-      );
-    }
-
     return Container(
+      height: 24,
       padding: defaultPadding,
       decoration: BoxDecoration(
         color: defaultBackgroundColor,
         borderRadius: defaultBorderRadius,
+        border: Border.all(
+          color: context.colorScheme.surfaceContainerHighest,
+          width: 0.5,
+        ),
       ),
       child: content,
     );
